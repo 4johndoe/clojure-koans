@@ -8,21 +8,28 @@
 
 (meditations
   "Destructuring is an arbiter: it breaks up arguments"
-  (= __ ((fn [[a b]] (str b a))
+  (= ":bar:foo" ((fn [[a b]] (str b a))
          [:foo :bar]))
 
   "Whether in function definitions"
   (= (str "An Oxford comma list of apples, "
           "oranges, "
           "and pears.")
-     ((fn [[a b c]] __)
+     ((fn [[a b c]] (format (str "An Oxford comma list of %s, "
+                                  "%s, "
+                                  "and %s.") a b c))
       ["apples" "oranges" "pears"]))
 
   "Or in let expressions"
   (= "Rich Hickey aka The Clojurer aka Go Time aka Lambda Guru"
      (let [[first-name last-name & aliases]
            (list "Rich" "Hickey" "The Clojurer" "Go Time" "Lambda Guru")]
-       __))
+       (apply str 
+          (interpose " "
+              (apply list
+                     first-name
+                     last-name
+                     (interleave (repeat "aka") aliases))))))
 
   "You can regain the full argument if you like arguing"
   (= {:original-parts ["Stephen" "Hawking"] :named-parts {:first "Stephen" :last "Hawking"}}
