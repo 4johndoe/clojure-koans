@@ -40,13 +40,17 @@
   "Break up maps by key"
   (= "123 Test Lane, Testerville, TX"
      (let [{street-address :street-address, city :city, state :state} test-address]
-       __))
+        (str street-address ", " city ", " state)))
 
   "Or more succinctly"
   (= "123 Test Lane, Testerville, TX"
-     (let [{:keys [street-address __ __]} test-address]
-       __))
+     (let [{:keys [street-address city state]} test-address]
+       (str street-address ", " city ", " state)))
 
   "All together now!"
   (= "Test Testerson, 123 Test Lane, Testerville, TX"
-     (___ ["Test" "Testerson"] test-address)))
+     ((fn [[fname lname]
+           {:keys [street-address city state]}]
+        (str fname " " lname ", "
+             street-address ", " city ", " state)) 
+          ["Test" "Testerson"] test-address)))
