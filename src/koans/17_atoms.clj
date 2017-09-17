@@ -5,7 +5,7 @@
 
 (meditations
   "Atoms are like refs"
-  (= __ @atomic-clock)
+  (= 0 @atomic-clock)
 
   "You can change at the swap meet"
   (= __ (do
